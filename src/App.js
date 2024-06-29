@@ -1,25 +1,34 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from 'react';
 
-function App() {
+export const App = () => {
+  const [value, setValue] = useState({normal: 'por defecto', texto: '', select: ''});
+
+  const handleChange = (e) => {
+    console.log(e.target.name)
+    setValue({
+      ...value,
+      [e.target.name]: e.target.value});
+
+  };
+  console.log(value);
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      {value.length < 5 && <span>longitud mínima 5</span>}
+      <input
+        type="text"
+        name="normal"
+        value={value.normal}
+        onChange={handleChange}
+      />
+      <textarea name="texto" value={value.text} onChange={handleChange} />
+      <select name="select" value={value.select} onChange={handleChange}>
+        <option value="chanchofeliz">Chancho feliz</option>
+        <option value="chanchitofeliz">Chanchito feliz</option>
+        <option value="chanchitoemocionado">Chanchito emocionado</option>
+        <option value="felipe">Felipe</option>
+      </select>
     </div>
   );
-}
+};
 
 export default App;
