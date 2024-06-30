@@ -1,34 +1,50 @@
-import React, { useState } from 'react';
+import { useState } from 'react'
 
-export const App = () => {
-  const [value, setValue] = useState({normal: 'por defecto', texto: '', select: ''});
+const App = () => {
+  const [form, setForm] = useState({ normal: '', text: '', select: '', check: false })
+  
+  //const handleChange = () => {
+    //setForm({ normal: e.target.value })
+  //}
+  const handleChange = ({ target }) => {
+    setForm(state => ({
+      ...state,
+      [target.name]: target.type === 'checkbox' ? target.checked : target.value
+    }))
+  }
 
-  const handleChange = (e) => {
-    console.log(e.target.name)
-    setValue({
-      ...value,
-      [e.target.name]: e.target.value});
+  const submit = () => {
+    console.log(form)
+  }
 
-  };
-  console.log(value);
   return (
     <div>
-      {value.length < 5 && <span>longitud mínima 5</span>}
-      <input
-        type="text"
-        name="normal"
-        value={value.normal}
-        onChange={handleChange}
-      />
-      <textarea name="texto" value={value.text} onChange={handleChange} />
-      <select name="select" value={value.select} onChange={handleChange}>
-        <option value="chanchofeliz">Chancho feliz</option>
-        <option value="chanchitofeliz">Chanchito feliz</option>
-        <option value="chanchitoemocionado">Chanchito emocionado</option>
-        <option value="felipe">Felipe</option>
-      </select>
-    </div>
-  );
-};
+      <input onChange={handleChange} name='normal' value={form.normal}/>
 
-export default App;
+      <textarea onChange={handleChange} name='text' value={form.text}/>
+
+      <select value={form.select} name='select' onChange={handleChange}>
+        <option value=''>-- Seleccione --</option>
+        <option value='chanchofeliz'>Chancho feliz</option>
+        <option value='chanchitofeliz'>Chanchito feliz</option>
+        <option value='chanchitotriste'>Chanchito triste</option>
+        <option value='felipe'>Felipe</option>
+      </select>
+      <input
+        type="checkbox"
+        onChange={handleChange}
+        name='check'
+        checked={form.check}
+      />
+      <div onChange={handleChange}>
+        <label>Chancho</label>
+        <input type='radio' value='feliz' name='estado' /> Feliz
+        <input type='radio' value='triste' name='estado' /> Triste
+        <input type='radio' value='emocionado' name='estado' /> Emocionado
+      </div>
+      <button onClick={submit}>Enviar</button>
+    </div>
+  )
+}
+
+export default App
